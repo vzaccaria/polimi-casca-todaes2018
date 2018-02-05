@@ -1,0 +1,33 @@
+name:                masked-sbox
+version:             0.1.0.0
+synopsis:            sbox implementation based on tower fields
+description:         Please see README.md
+homepage:            https://github.com/vzaccaria/polimi-casca#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Lorenzo Delledonne
+maintainer:          example@example.com
+copyright:           2016 Author Here
+category:            Web
+build-type:          Simple
+-- extra-source-files:
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      .
+  exposed-modules:     Lib
+  build-depends:       base >= 4.7 && < 5
+                     , clash-ghc
+                     , clash-prelude
+                     , ghc-typelits-natnormalise
+                     , sbv >= 7.3
+                     , tasty
+                     , tasty-hunit
+                     , tasty-quickcheck
+                     , template-haskell
+                     , split
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/vzaccaria/polimi-casca
