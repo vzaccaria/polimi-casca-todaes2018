@@ -1,4 +1,11 @@
-# Polymorphic S-BOXes (Typed Final Tagless)
+> CASCA: a Design Automation Approach for Designing Hardware Countermeasures Against Side Channel Attacks
+
+## Prerequisites
+
+| Tool  | Version  | Suggested install method                      |
+| ----- | -------- | -----                                         |
+| Z3    | > 4.7    | from [source](https://github.com/Z3Prover/z3) |
+| Stack | > 1.3.2  | OS package manager                            |
 
 ## Primitives
 
@@ -99,3 +106,15 @@
 
     ***Note:*** Probing is done via UNSAFE IO functions, this should
     change in a future version.
+
+## License
+
+```
+CASCA: a Design Automation Approach for Designing Hardware Countermeasures Against Side Channel Attacks (c) by Lorenzo Delledonne, Vittorio Zaccaria, Filippo Melzani, Guido Bertoni, Ruggero Susella
+
+This work is licensed under a
+Creative Commons Attribution-ShareAlike 4.0 International License.
+
+You should have received a copy of the license along with this
+work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+```
