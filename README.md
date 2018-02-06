@@ -18,7 +18,8 @@ This work is licensed under a Creative Commons Attribution-ShareAlike
 4.0 International License.
 
 You should have received a copy of the license along with this work. If
-not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+not, see <http://creativecommons.org/licenses/by-sa/4.0/> or the
+`LICENSE.md` file in this repo.
 
 ## Prerequisites
 
@@ -82,6 +83,7 @@ make prove-masked
 ```
 
 ### Checking masking correctness of CASCA circuits
+
 To check the "naive masking" properties of the specs by using a custom
 symbolic heuristics (see `Backend/MaskProp/Eval/EvalMasked.hs`):
 
@@ -93,6 +95,7 @@ make check-naive-masking
 specifications are not secure!
 
 ### Generating hardware specifications
+
 To generate the RTL spec in Verilog through CLaSH
 
 ``` bash
@@ -100,14 +103,13 @@ make syn-unmasked   # OR
 make syn-masked
 ```
 
-It'll take less than 10 minutes. You'll find the results in
-`./verilog`.
+It'll take less than 10 minutes. You'll find the results in `./verilog`.
 
 ***Important note:*** at the moment there's a slight problem with
-compiling multiple CLaSH specs, as they will all result in files
-with the same prefix (*"Backend"*). For this reason, it's better to
-remove (or move somewhere else) the existing output directory
-**before** performing another CLaSH compile:
+compiling multiple CLaSH specs, as they will all result in files with
+the same prefix (*"Backend"*). For this reason, it's better to remove
+(or move somewhere else) the existing output directory **before**
+performing another CLaSH compile:
 
 ``` bash
 rm -Rf verilog/
