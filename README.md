@@ -1,120 +1,126 @@
-> CASCA: a Design Automation Approach for Designing Hardware Countermeasures Against Side Channel Attacks
+This repository contains the research artifacts associated with the
+manuscript:
+
+> CASCA: a Design Automation Approach for Designing Hardware
+> Countermeasures Against Side Channel Attacks Lorenzo Delledonne,
+> Vittorio Zaccaria, Ruggero Susella, Guido Bertoni, Filippo Melzani
+> submitted to ACM TODAES in 2018
+
+This is made made publically available so that
+
+-   any interested party may audit it
+-   replication experiments can be performed
+-   robustness of the original results can be verified, and
+-   others can build directly upon the previous work through reuse and
+    repurposing.
+
+This work is licensed under a Creative Commons Attribution-ShareAlike
+4.0 International License.
+
+You should have received a copy of the license along with this work. If
+not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
 
 ## Prerequisites
 
-| Tool  | Version  | Suggested install method                      |
-| ----- | -------- | -----                                         |
-| Z3    | > 4.7    | from [source](https://github.com/Z3Prover/z3) |
-| Stack | > 1.3.2  | OS package manager                            |
+| Tool  | Version    | Suggested install method                      |
+|-------|------------|-----------------------------------------------|
+| Z3    | &gt; 4.7   | from [source](https://github.com/Z3Prover/z3) |
+| Stack | &gt; 1.3.2 | OS package manager                            |
 
-## Primitives
+## Contents
 
--   `Oswald MS-IAIK`: A **masked** AES S-Box inversion, implemented in
-    $GF(((2^2)^2)^2)$, based on Wolkerstorfer's composite field
-    inversion. Papers:
-    [1](https://www.iacr.org/archive/fse2005/35570401/35570401.pdf),
-    [2](https://eprint.iacr.org/2004/134).
+This repository contains:
 
--   `Wolkerstorfer S-IAIK`: An **unmasked** AES S-Box inversion,
-    implemented in a $GF((2^4)^2)$ composite field. Paper:
-    [1](https://dl.acm.org/citation.cfm?id=680932).
+-   the definition of the CASCA abstract syntax
+    (`Language/Operators.hs`)
 
-## Content
-
--   `Backend`: Different *interpretations* of the same abstract
-    polymorphic specification (MaskedSBOX, UmaskedSBOX).
-    -   `CLaSH`: structural RTL description, using CλaSH, for generating
-        both synthesizable RTL spec. and Testbench (in VHDL, Verilog,
-        ...).
-    -   `SBV`: symbolic description of the circuits, used by an SMT
-        (Satisfiability Modulo Theories) solver to verify the code
+-   the following semantic interpreters for the abstract syntax:
+    -   `Backend/CLaSH`: structural RTL description, using CλaSH, for
+        generating both synthesizable RTL spec. and Testbench (in VHDL
+        or Verilog)
+    -   `Backend/SBV`: symbolic description of the circuits, used by an
+        SMT (Satisfiability Modulo Theories) solver to verify the code
         against a formal spec.
-    -   `MaskProp`: symbolic description of a heuristics for checking
-        the masking properties of the specs.
-    -   `Trace`: high-level probing machinery for side-channel analysis.
--   `Language`: Syntax definition of our abstract polymorphic language.
--   `Primitives`: Abstract polymorphic specs of *UnmaskedSBOX*,
-    *MaskedSBOX* and all the mathematical primitives needed by
-    computations in Composite Galois Fields.
+    -   `Backend/MaskProp`: symbolic description of a heuristics for
+        checking the masking properties of the specs.
+    -   `Backend/Trace`: high-level probing machinery for side-channel
+        analysis.
+-   the specification of the following digital circuits done with the
+    CASCA DSL:
 
-## How To (local)
+    -   `Primitives/MaskedSBOX.hs`: a **masked** AES S-Box inversion,
+        implemented in $GF(((2^2)^2)^2)$, based on Wolkerstorfer's
+        composite field inversion (see papers:
+        [\[1\]](https://www.iacr.org/archive/fse2005/35570401/35570401.pdf),
+        [\[2\]](https://eprint.iacr.org/2004/134)).
+    -   `Primitives/MaskedSBOX.hs`: An **unmasked** AES S-Box inversion,
+        implemented in a $GF((2^4)^2)$ composite field (see paper
+        [\[3\]](https://dl.acm.org/citation.cfm?id=680932)).
 
-1.  To use locally, first of all you will need a working [Haskell Tool
-    Stack](https://docs.haskellstack.org/en/stable/README/).
+## Setting up
+
+1.  Install prerequisite tools (`stack` and `z3`)
 
 2.  Install CλaSH, SBV and other useful libraries.
 
     ``` bash
-    stack setup --resolver lts-9.10
-    stack install clash-ghc --resolver lts-9.10
-    stack install clash-prelude --resolver lts-9.10
-    stack install tasty tasty-hunit tasty-quickcheck --resolver lts-9.10
-    stack install sbv --resolver lts-9.10
+    stack setup
+    stack install
     ```
 
-3.  To perform a quick check on both masked and unmasked SBOX
-    polymorphic primitives:
+## Playing with this repo
 
-    ``` bash
-    make prove-unmasked
-    make prove-masked
-    ```
+### Checking correctness of CASCA circuits
 
-4.  To functionally check against some formal symbolic rules, by using
-    the SMT solver *Microsoft Ζ3* (via SBV):
+To functionally check the primitives against correctness rules (see for
+example `Backend/SBV/Eval/EvalMasked.hs`) you can use the following
+targets:
 
-    ``` bash
-    make prove-unmasked
-    make prove-masked
-    ```
+``` bash
+make prove-unmasked
+make prove-masked
+```
 
-5.  To check the "naive masking" properties of the specs by using a
-    custom symbolic heuristics:
+### Checking masking correctness of CASCA circuits
+To check the "naive masking" properties of the specs by using a custom
+symbolic heuristics (see `Backend/MaskProp/Eval/EvalMasked.hs`):
 
-    ``` bash
-    make check-naive-masking
-    ```
+``` bash
+make check-naive-masking
+```
 
-6.  To generate the RTL spec in Verilog, by using the CλaSH
-    *interpretation*:
+**Note**: some of the tests will "correctly" fail as the tested
+specifications are not secure!
 
-    ``` bash
-    make syn-unmasked   # OR
-    make syn-masked
-    ```
+### Generating hardware specifications
+To generate the RTL spec in Verilog through CLaSH
 
-    It'll take less than 10 minutes. You'll find the results in
-    `./verilog`.
+``` bash
+make syn-unmasked   # OR
+make syn-masked
+```
 
-    ***Important note:*** at the moment there's a slight problem with
-    compiling multiple CLaSH specs, as they will all result in files
-    with the same prefix (*"Backend"*). For this reason, it's better to
-    remove (or move somewhere else) the existing output directory
-    **before** performing another CLaSH compile:
+It'll take less than 10 minutes. You'll find the results in
+`./verilog`.
 
-    ``` bash
-    rm -Rf verilog/
-    ```
+***Important note:*** at the moment there's a slight problem with
+compiling multiple CLaSH specs, as they will all result in files
+with the same prefix (*"Backend"*). For this reason, it's better to
+remove (or move somewhere else) the existing output directory
+**before** performing another CLaSH compile:
 
-7.  To generate high-level traces (probes are placed on 4-bit
-    operations):
-
-    ``` bash
-    make generate-inputs
-    make probe
-    ```
-
-    ***Note:*** Probing is done via UNSAFE IO functions, this should
-    change in a future version.
+``` bash
+rm -Rf verilog/
+```
 
 ## License
 
-```
-CASCA: a Design Automation Approach for Designing Hardware Countermeasures Against Side Channel Attacks (c) by Lorenzo Delledonne, Vittorio Zaccaria, Filippo Melzani, Guido Bertoni, Ruggero Susella
+CASCA: a Design Automation Approach for Designing Hardware
+Countermeasures Against Side Channel Attacks (c) by Lorenzo Delledonne,
+Vittorio Zaccaria, Filippo Melzani, Guido Bertoni, Ruggero Susella
 
-This work is licensed under a
-Creative Commons Attribution-ShareAlike 4.0 International License.
+This work is licensed under a Creative Commons Attribution-ShareAlike
+4.0 International License.
 
-You should have received a copy of the license along with this
-work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
-```
+You should have received a copy of the license along with this work. If
+not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
