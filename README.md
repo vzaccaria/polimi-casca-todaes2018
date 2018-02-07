@@ -44,8 +44,7 @@ This repository contains:
         against a formal spec.
     -   `Backend/MaskProp`: symbolic description of a heuristics for
         checking the masking properties of the specs.
-    -   `Backend/Trace`: high-level probing machinery for side-channel
-        analysis.
+
 -   the specification of the following digital circuits done with the
     CASCA DSL:
 
