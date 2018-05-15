@@ -19,6 +19,7 @@ library
                      , clash-ghc
                      , clash-prelude
                      , ghc-typelits-natnormalise
+                     , ghc-typelits-knownnat
                      , sbv >= 7.3
                      , tasty
                      , tasty-hunit

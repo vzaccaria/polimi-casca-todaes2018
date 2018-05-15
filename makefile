@@ -63,3 +63,6 @@ clean: ## Clean up folders from garbage
 
 dist-clean: clean ## Cleanup and remove also the .dat files
 	rm -f Backend/Trace/Data/*.dat
+
+syn-keccak: ## Generate verilog for additional Keccak example
+	stack exec clash -- --verilog Backend/CLaSH/Eval/Keccak/EvalKeccak.hs

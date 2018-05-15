@@ -1,0 +1,21 @@
+read_verilog ../verilog/Backend/Backend_Component.v
+read_verilog ../verilog/Backend/Backend_chi_0.v     
+read_verilog ../verilog/Backend/Backend_chi.v
+read_verilog ../verilog/Backend/Backend_hwChi3.v
+read_verilog ../verilog/Backend/Backend_topEntity.v
+read_verilog ../verilog/Backend/Backend_topEntity_0.v
+
+synth -top Backend_topEntity
+
+#hierarchy -check -top Backend_topEntity
+#
+## the high-level stuff
+#proc; opt; fsm; opt; memory; opt
+#
+## mapping to internal cell library
+#techmap; opt
+#
+## this is probably not needed as we dont have registers so far
+#abc -liberty ./NangateOpenCellLibrary_functional.lib
+#
+write_verilog synth.v
