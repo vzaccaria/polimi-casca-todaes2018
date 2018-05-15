@@ -3,8 +3,8 @@
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
-{-# OPTIONS_GHC -fplugin GHC.TypeLits.KnownNat.Solver        #-}
-{-# OPTIONS_GHC -fplugin GHC.TypeLits.Normalise              #-}
+{-# OPTIONS_GHC -fplugin GHC.TypeLits.KnownNat.Solver          #-}
+{-# OPTIONS_GHC -fplugin GHC.TypeLits.Normalise                #-}
 
 module Primitives.Papers.Keccak where
 
@@ -48,3 +48,28 @@ chi3
     :: (Symantics repr)
     => (repr 5, repr 5, repr 5) -> (repr 5, repr 5, repr 5)
 chi3 (a,b,c) = (chi' b c, chi' c a, chi' a b)
+
+chiu
+    :: (Symantics repr)
+    => repr 3 -> repr 1
+chiu a =
+    let a0 = a ! 0
+        a1 = a ! 1
+        a2 = a ! 2
+    in a0 + (neg a1) * a2
+
+chir
+    :: (Symantics repr)
+    => repr 5 -> repr 5
+chir b =
+    let b0 = b ! 0
+        b1 = b ! 1
+        b2 = b ! 2
+        b3 = b ! 3
+        b4 = b ! 4
+        a0 = chiu (b0 ++ b1 ++ b2)
+        a1 = chiu (b1 ++ b2 ++ b3)
+        a2 = chiu (b2 ++ b3 ++ b4)
+        a3 = chiu (b3 ++ b4 ++ b0)
+        a4 = chiu (b4 ++ b0 ++ b1)
+    in a0 ++ a1 ++ a2 ++ a3 ++ a4
