@@ -67,6 +67,11 @@ dist-clean: clean ## Cleanup and remove also the .dat files
 syn-keccak: ## Generate verilog for additional Keccak example
 	stack exec clash -- --verilog Backend/CLaSH/Eval/Keccak/EvalKeccak.hs
 
+keccak-verilog.tar.gz:
+	rm -rf verilog
+	make syn-keccak
+	tar cvzf $@ verilog
+
 prove-keccak: ## Prove correctness of Keccak three shares implementation through SMT
 	@echo "Checking Keccak implementation through SMT"
 	stack exec ghc -- Backend/SBV/Eval/Keccak/EvalKeccak.hs -e 'main'
