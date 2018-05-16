@@ -3,8 +3,8 @@
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
-{-# OPTIONS_GHC -fplugin GHC.TypeLits.KnownNat.Solver          #-}
-{-# OPTIONS_GHC -fplugin GHC.TypeLits.Normalise                #-}
+{-# OPTIONS_GHC -fplugin GHC.TypeLits.KnownNat.Solver           #-}
+{-# OPTIONS_GHC -fplugin GHC.TypeLits.Normalise                 #-}
 
 module Primitives.Papers.Keccak where
 
@@ -37,12 +37,12 @@ chi' b c =
         c2 = c ! 2
         c3 = c ! 3
         c4 = c ! 4
-        a0' = (chi (b0 ++ b1 ++ b2) (c1 ++ c2))
-        a1' = (chi (b1 ++ b2 ++ b3) (c2 ++ c3))
-        a2' = (chi (b2 ++ b3 ++ b4) (c3 ++ c4))
-        a3' = (chi (b3 ++ b4 ++ b0) (c4 ++ c0))
-        a4' = (chi (b4 ++ b0 ++ b1) (c0 ++ c1))
-    in a0' ++ a1' ++ a2' ++ a3' ++ a4'
+        a0' = (chi (b2 ++ b1 ++ b0) (c2 ++ c1))
+        a1' = (chi (b3 ++ b2 ++ b1) (c3 ++ c2))
+        a2' = (chi (b4 ++ b3 ++ b2) (c4 ++ c3))
+        a3' = (chi (b0 ++ b4 ++ b3) (c0 ++ c4))
+        a4' = (chi (b1 ++ b0 ++ b4) (c1 ++ c0))
+    in a4' ++ a3' ++ a2' ++ a1' ++ a0'
 
 chi3
     :: (Symantics repr)
@@ -67,9 +67,9 @@ chir b =
         b2 = b ! 2
         b3 = b ! 3
         b4 = b ! 4
-        a0 = chiu (b0 ++ b1 ++ b2)
-        a1 = chiu (b1 ++ b2 ++ b3)
-        a2 = chiu (b2 ++ b3 ++ b4)
-        a3 = chiu (b3 ++ b4 ++ b0)
-        a4 = chiu (b4 ++ b0 ++ b1)
-    in a0 ++ a1 ++ a2 ++ a3 ++ a4
+        a0 = chiu (b2 ++ b1 ++ b0)
+        a1 = chiu (b3 ++ b2 ++ b1)
+        a2 = chiu (b4 ++ b3 ++ b2)
+        a3 = chiu (b0 ++ b4 ++ b3)
+        a4 = chiu (b1 ++ b0 ++ b4)
+    in a4 ++ a3 ++ a2 ++ a1 ++ a0

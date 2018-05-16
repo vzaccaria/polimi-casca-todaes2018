@@ -28,6 +28,12 @@ correctness a b c =
         ss' = sbvChi (a `xor` b `xor` c)
     in (sa `xor` sb `xor` sc) .== ss'
 
+correctn :: SWord8 -> SWord8 -> SWord8 -> (SWord8, SWord8)
+correctn a b c =
+    let (sa,sb,sc) = sbvChi3 (a, b, c)
+        ss' = sbvChi (a `xor` b `xor` c)
+    in (sa `xor` sb `xor` sc, ss')
+
 isCorrect :: Symbolic SBool
 isCorrect = do
     a <- forall "a"
