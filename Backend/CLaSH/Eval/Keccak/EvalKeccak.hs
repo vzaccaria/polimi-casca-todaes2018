@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Backend.CLaSH.Keccak.EvalKeccak where
+module Backend.CLaSH.Eval.Keccak.EvalKeccak where
 
 import qualified CLaSH.Prelude as CP
 import GHC.TypeLits
