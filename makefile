@@ -72,6 +72,11 @@ keccak-verilog.tar.gz:
 	make syn-keccak
 	tar cvzf $@ verilog
 
+time-flow:
+	time make prove-masked
+	time make syn-masked
+	time make check-naive-masking
+
 prove-keccak: ## Prove correctness of Keccak three shares implementation through SMT
 	@echo "Checking Keccak implementation through SMT"
 	stack exec ghc -- Backend/SBV/Eval/Keccak/EvalKeccak.hs -e 'main'
