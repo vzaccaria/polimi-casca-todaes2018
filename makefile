@@ -67,10 +67,18 @@ dist-clean: clean ## Cleanup and remove also the .dat files
 syn-keccak: ## Generate verilog for additional Keccak example
 	stack exec clash -- --verilog Backend/CLaSH/Eval/Keccak/EvalKeccak.hs
 
+syn-keccak-vhdl: ## Generate verilog for additional Keccak example
+	stack exec clash -- --vhdl Backend/CLaSH/Eval/Keccak/EvalKeccak.hs
+
 keccak-verilog.tar.gz:
 	rm -rf verilog
 	make syn-keccak
 	tar cvzf $@ verilog
+
+keccak-vhdl.tar.gz:
+	rm -rf vhdl
+	make syn-keccak-vhdl
+	tar cvzf $@ vhdl
 
 time-flow:
 	time make prove-masked
