@@ -44,7 +44,6 @@ This repository contains:
         against a formal spec.
     -   `Backend/MaskProp`: symbolic description of a heuristics for
         checking the masking properties of the specs.
-
 -   the specification of the following digital circuits done with the
     CASCA DSL:
 
@@ -56,6 +55,8 @@ This repository contains:
     -   `Primitives/MaskedSBOX.hs`: An **unmasked** AES S-Box inversion,
         implemented in a $GF((2^4)^2)$ composite field (see paper
         [\[3\]](https://dl.acm.org/citation.cfm?id=680932)).
+    -   `Primitives/Papers/Keccak.hs`: The original three shares Keccak
+        Chi implemention.
 
 ## Setting up
 
@@ -77,8 +78,9 @@ example `Backend/SBV/Eval/EvalMasked.hs`) you can use the following
 targets:
 
 ``` bash
-make prove-unmasked
-make prove-masked
+make prove-unmasked # OR
+make prove-masked   # OR
+make prove-keccak
 ```
 
 ### Checking masking correctness of CASCA circuits
@@ -100,9 +102,8 @@ To generate the RTL spec in Verilog through CLaSH
 ``` bash
 make syn-unmasked   # OR
 make syn-masked
+make syn-keccak
 ```
-
-It'll take less than 10 minutes. You'll find the results in `./verilog`.
 
 ***Important note:*** at the moment there's a slight problem with
 compiling multiple CLaSH specs, as they will all result in files with
