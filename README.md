@@ -56,7 +56,11 @@ This repository contains:
         implemented in a $GF((2^4)^2)$ composite field (see paper
         [\[3\]](https://dl.acm.org/citation.cfm?id=680932)).
     -   `Primitives/Papers/Keccak.hs`: The original three shares Keccak
-        Chi implemention.
+        Chi implemention (see, for example,
+        [\[4\]](https://link.springer.com/chapter/10.1007/978-3-319-08302-5_13), p. 190)
+
+-   A supplemental file with a short tutorial on tagless final
+    programming in Haskell.
 
 ## Setting up
 
